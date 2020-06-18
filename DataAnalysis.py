@@ -12,7 +12,7 @@ def get_criteria_dict_and_criteria_count(csv_data):
 def get_sum_on_criteria(criteria_list, row_count):
     sum_on_criteria = 0
 
-    for i in range(1, row_count):
+    for i in range(row_count):
         sum_on_criteria = sum_on_criteria + int(criteria_list[i])
 
     return sum_on_criteria
