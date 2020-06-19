@@ -16,6 +16,26 @@ def info():
     print('=========================================')
 
 
+def get_result_dict(average_mark, squared_difference_sum, row_count, criteria_count, overall_concordance):
+    result = {
+        'Инфо': [
+            'Средняя оценка по критериям в таблице',
+            'Сумма квадратов отклонений',
+            'Количество экспертов',
+            'Количество критериев оценки',
+            'Общая конкордация'
+        ],
+        'Результат': [
+            average_mark,
+            squared_difference_sum,
+            row_count,
+            criteria_count,
+            overall_concordance
+        ]
+    }
+
+    return result
+
 def main():
     clear()
     info()
@@ -31,11 +51,11 @@ def main():
     squared_difference_sum = DataAnalysis.get_squared_difference_sum(sum_on_criteria_dict, average_mark)
     overall_concordance = DataAnalysis.get_concordance(squared_difference_sum, row_count, criteria_count)
 
-    print(f'Средняя оценка по всем критериям: {average_mark}')
-    print(f'Сумма квадратов отклонений: {squared_difference_sum}')
-    print(f'Количество экспертов: {row_count}')
-    print(f'Количество критериев оценки: {criteria_count}')
-    print(f'Общая конкордация: {overall_concordance}')
+    result_dict = get_result_dict(average_mark, squared_difference_sum, row_count, criteria_count, overall_concordance)
+
+    FileReader.write_dict_to_csv(result_dict)
+
+    print("Расчеты произведены. Проверь output.csv")
 
 
 if __name__ == '__main__':
