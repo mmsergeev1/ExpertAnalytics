@@ -41,19 +41,3 @@ def get_concordance(squared_difference_sum, row_count, criteria_count):
     concordance = (12 * squared_difference_sum) / ((row_count ** 2) * ((criteria_count ** 3) - criteria_count))
 
     return "{:2.2f}".format(concordance)
-
-
-# def get_concordance_in_criteria(criteria_list, row_count, criteria_count):
-#     sum_of_marks = 0
-#     for i in range(1, row_count):
-#         sum_of_marks = sum_of_marks + int(criteria_list[i])
-#
-#     average_mark = sum_of_marks / row_count
-#     squared_difference_sum = 0.0
-#
-#     for i in range(1, row_count):
-#         squared_difference_sum = squared_difference_sum + ((int(criteria_list[i]) - average_mark) ** 2)
-#
-#     concordance = (12 * squared_difference_sum) / ((row_count ** 2) * ((criteria_count ** 3) - criteria_count))
-#
-#     return "{:10.2f}".format(concordance)

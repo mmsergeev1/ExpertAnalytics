@@ -25,7 +25,6 @@ def main():
 
     criteria_count, criteria_dict = DataAnalysis.get_criteria_dict_and_criteria_count(csv_data)
 
-    concordance = {}
     sum_on_criteria = {}
     for key in criteria_dict:
         sum_on_criteria[key] = DataAnalysis.get_sum_on_criteria(criteria_dict[key], row_count)
@@ -39,6 +38,7 @@ def main():
     print(f'Количество экспертов: {row_count}')
     print(f'Количество критериев оценки: {criteria_count}')
     print(f'Общая конкордация: {overall_concordance}')
+
 
 if __name__ == '__main__':
     main()
