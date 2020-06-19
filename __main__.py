@@ -25,12 +25,10 @@ def main():
 
     criteria_count, criteria_dict = DataAnalysis.get_criteria_dict_and_criteria_count(csv_data)
 
-    sum_on_criteria = {}
-    for key in criteria_dict:
-        sum_on_criteria[key] = DataAnalysis.get_sum_on_criteria(criteria_dict[key], row_count)
+    sum_on_criteria_dict = DataAnalysis.get_sum_on_criteria_dict(criteria_dict)
 
-    average_mark = DataAnalysis.get_average_mark(sum_on_criteria, criteria_count)
-    squared_difference_sum = DataAnalysis.get_squared_difference_sum(sum_on_criteria, average_mark)
+    average_mark = DataAnalysis.get_average_mark(sum_on_criteria_dict, criteria_count)
+    squared_difference_sum = DataAnalysis.get_squared_difference_sum(sum_on_criteria_dict, average_mark)
     overall_concordance = DataAnalysis.get_concordance(squared_difference_sum, row_count, criteria_count)
 
     print(f'Средняя оценка по всем критериям: {average_mark}')

@@ -9,30 +9,34 @@ def get_criteria_dict_and_criteria_count(csv_data):
     return criteria_count, criteria_dict
 
 
-def get_sum_on_criteria(criteria_list, row_count):
+def get_sum_on_criteria_dict(criteria_dict):
     sum_on_criteria = 0
+    sum_on_criteria_dict = {}
 
-    for i in range(row_count):
-        sum_on_criteria = sum_on_criteria + int(criteria_list[i])
+    for key in criteria_dict:
+        for i in range(len(criteria_dict[key])):
+            sum_on_criteria += int(criteria_dict[key][i])
+        sum_on_criteria_dict[key] = sum_on_criteria
+        sum_on_criteria = 0
 
-    return sum_on_criteria
+    return sum_on_criteria_dict
 
 
-def get_average_mark(sum_on_criteria, criteria_count):
+def get_average_mark(sum_on_criteria_dict, criteria_count):
     overall_sum = 0
 
-    for key in sum_on_criteria:
-        overall_sum = overall_sum + int(sum_on_criteria[key])
+    for key in sum_on_criteria_dict:
+        overall_sum = overall_sum + int(sum_on_criteria_dict[key])
 
     average_mark = overall_sum / criteria_count
     return "{:5.2f}".format(average_mark)
 
 
-def get_squared_difference_sum(sum_on_criteria, average_mark):
+def get_squared_difference_sum(sum_on_criteria_dict, average_mark):
     squared_difference_sum = 0.0
 
-    for key in sum_on_criteria:
-        squared_difference_sum = squared_difference_sum + ((int(sum_on_criteria[key]) - float(average_mark)) ** 2)
+    for key in sum_on_criteria_dict:
+        squared_difference_sum = squared_difference_sum + ((int(sum_on_criteria_dict[key]) - float(average_mark)) ** 2)
 
     return squared_difference_sum
 
