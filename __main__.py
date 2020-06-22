@@ -36,11 +36,12 @@ def get_result_dict(average_mark, squared_difference_sum, row_count, criteria_co
 
     return result
 
+
 def main():
     clear()
     info()
 
-    row_count = FileReader.get_row_count()
+    expert_count = FileReader.get_expert_count()
     csv_data, line_count = FileReader.get_data_and_line_count()
 
     criteria_count, criteria_dict = DataAnalysis.get_criteria_dict_and_criteria_count(csv_data)
@@ -49,9 +50,10 @@ def main():
 
     average_mark = DataAnalysis.get_average_mark(sum_on_criteria_dict, criteria_count)
     squared_difference_sum = DataAnalysis.get_squared_difference_sum(sum_on_criteria_dict, average_mark)
-    overall_concordance = DataAnalysis.get_concordance(squared_difference_sum, row_count, criteria_count)
+    overall_concordance = DataAnalysis.get_concordance(squared_difference_sum, expert_count, criteria_count)
 
-    result_dict = get_result_dict(average_mark, squared_difference_sum, row_count, criteria_count, overall_concordance)
+    result_dict = get_result_dict(average_mark, squared_difference_sum, expert_count, criteria_count,
+                                  overall_concordance)
 
     FileReader.write_dict_to_csv(result_dict)
 

@@ -2,7 +2,7 @@ from collections import defaultdict
 import csv
 
 
-def get_row_count():
+def get_expert_count():
     with open('data.csv', encoding="CP866", newline='', errors='ignore') as csv_in_file:
         row_count = sum(1 for line in csv_in_file) - 1
     return row_count
