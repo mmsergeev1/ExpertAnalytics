@@ -46,18 +46,17 @@ def main():
 
     criteria_count, criteria_dict = DataAnalysis.get_criteria_dict_and_criteria_count(csv_data)
 
-    sum_on_criteria_dict = DataAnalysis.get_sum_on_criteria_dict(criteria_dict)
+    blocks_dict = DataAnalysis.split_blocks(criteria_dict)
+    concordance_by_block = {}
+    for block in blocks_dict:
+        sum_on_criteria_dict = DataAnalysis.get_sum_on_criteria_dict(blocks_dict[block])
+        average_mark = DataAnalysis.get_average_mark(sum_on_criteria_dict, len(blocks_dict[block]))
+        squared_difference_sum = DataAnalysis.get_squared_difference_sum(sum_on_criteria_dict, average_mark)
+        concordance_by_block[block] = float(DataAnalysis.get_concordance(squared_difference_sum, expert_count, len(blocks_dict[block])))
 
-    average_mark = DataAnalysis.get_average_mark(sum_on_criteria_dict, criteria_count)
-    squared_difference_sum = DataAnalysis.get_squared_difference_sum(sum_on_criteria_dict, average_mark)
-    overall_concordance = DataAnalysis.get_concordance(squared_difference_sum, expert_count, criteria_count)
+    FileReader.write_dict_to_csv(concordance_by_block)
 
-    result_dict = get_result_dict(average_mark, squared_difference_sum, expert_count, criteria_count,
-                                  overall_concordance)
-
-    FileReader.write_dict_to_csv(result_dict)
-
-    print("Расчеты произведены. Проверь output.csv")
+    print("Done. Check output.csv.")
 
 
 if __name__ == '__main__':

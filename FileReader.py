@@ -24,8 +24,7 @@ def get_data_and_line_count():
 
 
 def write_dict_to_csv(data_dict):
-    zd = zip(*data_dict.values())
     with open('output.csv', 'w') as csv_out_file:
         writer = csv.writer(csv_out_file, delimiter=';')
-        writer.writerow(data_dict.keys())
-        writer.writerows(zd)
+        writer.writerow('QW')
+        writer.writerows(data_dict.items())
