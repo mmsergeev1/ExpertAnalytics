@@ -3,12 +3,20 @@ import csv
 
 
 def get_expert_count():
+    """
+
+    :return: amount of experts in file
+    """
     with open('data.csv', encoding="CP866", newline='', errors='ignore') as csv_in_file:
-        row_count = sum(1 for line in csv_in_file) - 1
-    return row_count
+        expert_count = sum(1 for line in csv_in_file) - 1
+    return expert_count
 
 
 def get_data_and_line_count():
+    """
+
+    :return: data from csv and column count
+    """
     columns = defaultdict(list)  # each value in each column is appended to a list
 
     with open('data.csv', encoding="CP866", newline='', errors='ignore') as csv_in_file:
@@ -24,6 +32,12 @@ def get_data_and_line_count():
 
 
 def write_dict_to_csv(data_dict):
+    """
+    Writes data to csv. It will write a column of keys and a column of values.
+
+    :param data_dict:
+    :return: None
+    """
     with open('output.csv', 'w') as csv_out_file:
         writer = csv.writer(csv_out_file, delimiter=';')
         writer.writerow('QW')
