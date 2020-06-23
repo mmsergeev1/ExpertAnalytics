@@ -35,6 +35,7 @@ def write_dict_to_csv(data_dict, filename):
     """
     Writes data to csv. It will write a column of keys and a column of values.
 
+    :param filename:
     :param data_dict:
     :return: None
     """

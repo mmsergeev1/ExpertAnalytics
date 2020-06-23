@@ -64,7 +64,7 @@ def main():
                                                                                                   criteria],
                                                                                               criteria_dict[criteria])
 
-    # putting data into output.csv
+    # putting data into output files
     FileReader.write_dict_to_csv(concordance_by_block, 'concordance_output.csv')
     FileReader.write_dict_to_csv(gaussian_distribution_for_criteria, 'gaussian_distribution_output.csv')
 
