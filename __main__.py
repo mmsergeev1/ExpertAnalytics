@@ -44,15 +44,31 @@ def main():
     concordance_by_block = {}
     for block in blocks_dict:
         sum_on_criteria_dict = DataAnalysis.get_sum_on_criteria_dict(blocks_dict[block])
-        average_mark = DataAnalysis.get_average_mark(sum_on_criteria_dict, len(blocks_dict[block]))
-        squared_difference_sum = DataAnalysis.get_squared_difference_sum(sum_on_criteria_dict, average_mark)
+        overall_average_mark = DataAnalysis.get_overall_average_mark(sum_on_criteria_dict, len(blocks_dict[block]))
+        squared_difference_sum = DataAnalysis.get_squared_difference_sum(sum_on_criteria_dict, overall_average_mark)
         concordance_by_block[block] = float(DataAnalysis.get_concordance(squared_difference_sum, expert_count,
                                                                          len(blocks_dict[block])))
 
-    # put data into output.csv
-    FileReader.write_dict_to_csv(concordance_by_block)
+    # counting gaussian_distribution
+    gaussian_distribution_for_criteria = {}
+    mathematical_expectation = DataAnalysis.get_average_on_criteria(criteria_dict, expert_count)
+    for criteria in criteria_dict:
+        avg_squared_diff, dispersion = DataAnalysis.get_avg_squared_diff_and_dispersion(criteria_dict[criteria],
+                                                                                        mathematical_expectation[
+                                                                                            criteria],
+                                                                                        expert_count)
 
-    print("Done. Check output.csv.")
+        gaussian_distribution_for_criteria[criteria] = DataAnalysis.get_gaussian_distribution(dispersion,
+                                                                                              avg_squared_diff,
+                                                                                              mathematical_expectation[
+                                                                                                  criteria],
+                                                                                              criteria_dict[criteria])
+
+    # putting data into output.csv
+    FileReader.write_dict_to_csv(concordance_by_block, 'concordance_output.csv')
+    FileReader.write_dict_to_csv(gaussian_distribution_for_criteria, 'gaussian_distribution_output.csv')
+
+    print("Done. Check files.")
 
 
 if __name__ == '__main__':

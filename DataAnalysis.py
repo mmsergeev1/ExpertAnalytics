@@ -1,3 +1,6 @@
+from math import exp, pi, sqrt
+
+
 def get_criteria_dict_and_criteria_count(csv_data):
     """
     Analyse data in file and delete all non-usable stuff
@@ -11,6 +14,7 @@ def get_criteria_dict_and_criteria_count(csv_data):
         if key[0] == 'Q':  # As we discussed before, all criteria names should start with Q
             criteria_dict[key] = csv_data[key]
             criteria_count += 1
+            criteria_dict[key] = list(map(int, criteria_dict[key]))
 
     return criteria_count, criteria_dict
 
@@ -32,7 +36,7 @@ def get_sum_on_criteria_dict(criteria_dict):
     return sum_on_criteria_dict
 
 
-def get_average_mark(sum_on_criteria_dict, criteria_count):
+def get_overall_average_mark(sum_on_criteria_dict, criteria_count):
     """
     :param sum_on_criteria_dict:
     :param criteria_count:
@@ -41,7 +45,7 @@ def get_average_mark(sum_on_criteria_dict, criteria_count):
     overall_sum = 0
 
     for key in sum_on_criteria_dict:
-        overall_sum = overall_sum + int(sum_on_criteria_dict[key])
+        overall_sum += int(sum_on_criteria_dict[key])
 
     average_mark = overall_sum / criteria_count
     return float("{:5.2f}".format(average_mark))
@@ -122,10 +126,55 @@ def split_blocks(criteria_dict):
     return blocks_dict
 
 
-def get_gaussian_distribution():
-    pass
-# TODO: realise gaussian distribution count. mathematical expectation == average on criteria
-# false dispersion == squared_difference_sum / expert_count
-# true dispersion == false dispersion * expert_count / (expert_count - 1)
-# gaussian distribution is counted by a formula
+def get_average_on_criteria(criteria_dict, expert_count):
+    """
+    average_on_criteria equals to mathematical expectation
+
+    :param criteria_dict:
+    :param expert_count:
+    :return: average_on_criteria_dict
+    """
+    average_on_criteria_dict = {}
+
+    for criteria in criteria_dict:
+        average_on_criteria_dict[criteria] = float(sum(criteria_dict[criteria]) / expert_count)
+
+    return average_on_criteria_dict
+
+
+def get_avg_squared_diff_and_dispersion(mark_list, average_on_criteria, expert_count):
+    """
+
+    :return: sigma and squared sigma
+    """
+    difference = {}
+    squared_difference = {}
+
+    for mark in mark_list:
+        difference[mark] = mark_list[mark] - average_on_criteria
+        squared_difference[mark] = difference[mark] ** 2
+
+    false_avg_squared_diff = sum(squared_difference) / expert_count
+    avg_squared_diff = false_avg_squared_diff * expert_count / (expert_count - 1)
+
+    dispersion = avg_squared_diff ** 2
+
+    return avg_squared_diff, dispersion
+
+
+def get_gaussian_distribution(dispersion, avg_squared_diff, average_mark, criteria):
+    """
+
+    In probability theory, a gaussian distribution is a type of continuous probability distribution for a rea-valued
+    random variable.
+
+    :return: gaussian_distribution_dict
+    """
+    gaussian_distribution_list = []
+
+    for mark in criteria:
+        gaussian_distribution_list.append((1 / (avg_squared_diff * sqrt(2 * pi))) * exp(
+            ((-1 * (criteria[mark] - average_mark)) ** 2) / 2 * dispersion))
+
+    return gaussian_distribution_list
 # graphics can be built with imported libs
